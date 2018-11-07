@@ -1,6 +1,5 @@
 from random import randint
 import datetime as f
-board = []
 cmd_list = []
 abertura = 'Welcome to Battleship'
 game_modes = '\nChoose your gamemode:\n1 - Easy \n2 - Medium\n3 - Hard\n'
@@ -35,16 +34,52 @@ def format_(m):
 def game(board_size, number_of_turns):
     turn = 0
     board = [['0'] * board_size for x in range(board_size)]
+    types = ['hor', 'ver']
+    # type_ = types[randint(0, 1)]
+    type_ = types[0]
+    ship_list = []
+    print(type_)
 
     def print_board(board):
         for row in board:
             print(' '.join(row))
 
-    def random_num(board):
-        return randint(0, (len(board) - 1))
+    def random_num(first=None, board_size=board_size):
+        if  first == None:
+            i = randint(0, (board_size - 1))
+            j = randint(0, (board_size - 1))
+            ship_list.append([i,j])
+            return [i, j]
+        else:
+            try:
+                i = randint((first[0]-1), (first[0]+1))
+            except i == first[1]:
+                random_num(first)
+                raise f'i == first:\n{i} == {first}'
 
-    ship_row = random_num(board)
-    ship_col = random_num(board)
+            except i < 0:
+                random_num(first)
+                raise "out of domain, i < board_size"
+
+            except i > board_size:
+                random_num(first)
+                raise "out  of domain, i > board_size"
+
+            finally:
+                if type_ is "hor":
+                    j = first[0]
+                    ship_list.append([j, i])
+                elif type_ is "ver":
+                    j = first[1]
+                    ship_list.append([j, i])
+
+
+    first_point = random_num()
+    print(ship_list)
+    next_one = random_num(first_point)
+    print(ship_list)
+    # ship_row = random_num(board)
+    # ship_col = random_num(board)
 
     while turn <= number_of_turns:
         if turn == (number_of_turns - 1):
