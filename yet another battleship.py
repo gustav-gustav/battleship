@@ -51,21 +51,20 @@ def game(board_size, number_of_turns):
             ship_list.append([i,j])
             return [i, j]
         else:
-            try:
-                i = randint((first[0]-1), (first[0]+1))
-            except i == first[1]:
+            i = randint((first[0]-1), (first[0]+1))
+            if i == first[1]:
+                print(f'i == first:\n{i} == {first[1]}')
                 random_num(first)
-                raise f'i == first:\n{i} == {first}'
 
-            except i < 0:
+            elif i < 0:
+                print("out of domain, i < board_size")
                 random_num(first)
-                raise "out of domain, i < board_size"
 
-            except i > board_size:
+            elif i > board_size:
+                print("out  of domain, i > board_size")
                 random_num(first)
-                raise "out  of domain, i > board_size"
 
-            finally:
+            else:
                 if type_ is "hor":
                     j = first[0]
                     ship_list.append([j, i])
@@ -75,9 +74,9 @@ def game(board_size, number_of_turns):
 
 
     first_point = random_num()
-    print(ship_list)
+    # print(ship_list)
     next_one = random_num(first_point)
-    print(ship_list)
+    # print(ship_list)
     # ship_row = random_num(board)
     # ship_col = random_num(board)
 
