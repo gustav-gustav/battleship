@@ -103,7 +103,7 @@ def prompt():
             game(4, 8)
 
         elif prompt == '1':
-            game(3, 6)
+            game(3, 5)
 
         elif prompt == 'sair':
             break
