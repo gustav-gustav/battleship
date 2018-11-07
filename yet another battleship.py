@@ -35,14 +35,26 @@ def game(board_size, number_of_turns):
     turn = 0
     board = [['0'] * board_size for x in range(board_size)]
     types = ['hor', 'ver']
-    # type_ = types[randint(0, 1)]
-    type_ = types[0]
+    type_ = types[randint(0, 1)]
+    # type_ = types[1]
     ship_list = []
     print(type_)
 
     def print_board(board):
         for row in board:
             print(' '.join(row))
+
+    def verify(type_, rev=False):
+        if rev:
+            if type_ is 'hor':
+                return 1
+            else:
+                return 0
+        else:
+            if  type_ is 'hor':
+                return 0
+            else:
+                return 1
 
     def random_num(first=None, board_size=board_size):
         if  first == None:
@@ -51,32 +63,38 @@ def game(board_size, number_of_turns):
             ship_list.append([i,j])
             return [i, j]
         else:
-            i = randint((first[0]-1), (first[0]+1))
-            if i == first[1]:
-                print(f'i == first:\n{i} == {first[1]}')
+            index = verify(type_)
+            rev_index = verify(type_, True)
+
+            moving = randint((first[rev_index]-1), (first[rev_index]+1))
+            constant = first[index]
+
+            if moving == first[rev_index]:
+                print(f'moving == first:\n{moving} == {first[index]}')
                 random_num(first)
 
-            elif i < 0:
-                print("out of domain, i < board_size")
+            elif moving < 0:
+                print("out of domain, moving < board_size")
                 random_num(first)
 
-            elif i > board_size:
-                print("out  of domain, i > board_size")
+            elif moving > (board_size-1):
+                print("out  of domain, moving > board_size")
                 random_num(first)
 
             else:
                 if type_ is "hor":
-                    j = first[0]
-                    ship_list.append([j, i])
+                    ship_list.append([constant, moving])
                 elif type_ is "ver":
-                    j = first[1]
-                    ship_list.append([j, i])
-
+                    ship_list.append([moving, constant])
 
     first_point = random_num()
-    # print(ship_list)
-    next_one = random_num(first_point)
-    # print(ship_list)
+    random_num(first_point)
+    # print(ship_list, '\n')
+    # for points in ship_list:
+    #     i, j = points
+    #     board[i][j] = 'Y'
+
+    # print_board(board)
     # ship_row = random_num(board)
     # ship_col = random_num(board)
 
