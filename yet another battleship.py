@@ -32,15 +32,15 @@ def format_(m):
 
 
 def game(board_size, number_of_turns):
+    inc = 0
     turn = 0
     board = [['0'] * board_size for x in range(board_size)]
     types = ['hor', 'ver']
     type_ = types[randint(0, 1)]
-    # type_ = types[1]
     ship_list = []
-    print(type_)
+    # print(type_)
 
-    def print_board(board):
+    def print_board(board=board):
         for row in board:
             print(' '.join(row))
 
@@ -70,15 +70,15 @@ def game(board_size, number_of_turns):
             constant = first[index]
 
             if moving == first[rev_index]:
-                print(f'moving == first:\n{moving} == {first[index]}')
+                # print(f'moving == first:\n{moving} == {first[index]}')
                 random_num(first)
 
             elif moving < 0:
-                print("out of domain, moving < board_size")
+                # print("out of domain, moving < board_size")
                 random_num(first)
 
             elif moving > (board_size-1):
-                print("out  of domain, moving > board_size")
+                # print("out  of domain, moving > board_size")
                 random_num(first)
 
             else:
@@ -89,14 +89,12 @@ def game(board_size, number_of_turns):
 
     first_point = random_num()
     random_num(first_point)
-    # print(ship_list, '\n')
-    # for points in ship_list:
-    #     i, j = points
-    #     board[i][j] = 'Y'
+    print(ship_list, '\n')
+    for point in ship_list:
+        i, j = point
+        board[i][j] = 'Y'
 
-    # print_board(board)
-    # ship_row = random_num(board)
-    # ship_col = random_num(board)
+    print_board(board)
 
     while turn <= number_of_turns:
         if turn == (number_of_turns - 1):
@@ -109,7 +107,7 @@ def game(board_size, number_of_turns):
                 break
 
         else:
-            print_board(board)
+            print_board()
             print('Turn ' + str(turn + 1))
             # print(ship_row + 1) for debugging
             # print(ship_col + 1)
@@ -118,20 +116,23 @@ def game(board_size, number_of_turns):
             guess_row -= 1
             guess_col -= 1
 
-            if guess_row == ship_row and guess_col == ship_col:
-                print('\n')
-                board[guess_row][guess_col] = "Y"
-                print_board(board)
-                print("\nCongratulations! You sunk my battleship!\n")
-                break
-            else:
-                if (guess_row < 0 or guess_row > (board_size - 1) or (guess_col < 0 or guess_col > (board_size - 1))):
-                    print("\nOops, that's not even in the ocean.\n")
-                elif(board[guess_row][guess_col] == "X"):
-                    print("\nYou guessed that one already.\n")
+            for point in ship_list:
+                if guess_row == point[0] and guess_col == point[1]:
+                    print('\n')
+                    board[guess_row][guess_col] = "Y"
+                    print_board()
+                    print("\nCongratulations! You sunk my battleship!\n")
+                    inc += 1
+                    if inc == len(ship_list):
+                        break
                 else:
-                    print("\nYou missed my battleship!\n")
-                    board[guess_row][guess_col] = "X"
+                    if (guess_row < 0 or guess_row > (board_size - 1) or (guess_col < 0 or guess_col > (board_size - 1))):
+                        print("\nOops, that's not even in the ocean.\n")
+                    elif(board[guess_row][guess_col] == "X"):
+                        print("\nYou guessed that one already.\n")
+                    else:
+                        print("\nYou missed my battleship!\n")
+                        board[guess_row][guess_col] = "X"
             turn += 1
 
 
